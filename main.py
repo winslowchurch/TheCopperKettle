@@ -17,7 +17,7 @@ object_queue = [pygame.image.load(obj) for obj in object_images]
 
 # Initial positions
 box_rect = box_image.get_rect(topleft=(100, 100))
-placed_objects = []
+placed_objects = []  # List to store placed objects as (surface, rect) tuples
 current_object = None
 dragging = False
 
@@ -35,32 +35,34 @@ while True:
             sys.exit()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if box_rect.collidepoint(event.pos) and object_queue:
+            if current_object is None and box_rect.collidepoint(event.pos) and object_queue:
+                # Take the next object from the box and place it directly under the mouse
                 current_object = object_queue.pop(0)
-                current_rect = current_object.get_rect(topleft=event.pos)
+                current_rect = current_object.get_rect(center=event.pos)
                 dragging = True
-                mouse_x, mouse_y = event.pos
-                offset_x = current_rect.x - mouse_x
-                offset_y = current_rect.y - mouse_y
 
-            elif current_object and current_rect.collidepoint(event.pos):
-                dragging = True
-                mouse_x, mouse_y = event.pos
-                offset_x = current_rect.x - mouse_x
-                offset_y = current_rect.y - mouse_y
+            elif current_object is None:
+                # Check if the user clicked on any placed object
+                for surface, rect in placed_objects:
+                    if rect.collidepoint(event.pos):
+                        current_object = surface
+                        current_rect = rect
+                        placed_objects.remove((surface, rect))
+                        dragging = True
+                        break
 
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if dragging:
+            else:
+                # Place the current object if there's no collision
                 if can_place_object(current_rect, placed_objects):
                     placed_objects.append((current_object, current_rect))
                     current_object = None
-                dragging = False
+                    dragging = False
 
         elif event.type == pygame.MOUSEMOTION:
             if dragging and current_object:
                 mouse_x, mouse_y = event.pos
-                current_rect.x = mouse_x + offset_x
-                current_rect.y = mouse_y + offset_y
+                # Center the object around the mouse
+                current_rect.center = (mouse_x, mouse_y)
 
     # Draw everything
     screen.blit(background, (0, 0))
