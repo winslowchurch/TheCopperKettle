@@ -16,7 +16,7 @@ object_images = ['object1.png', 'object2.png', 'object3.png']  # List of object 
 object_queue = [pygame.image.load(obj) for obj in object_images]
 
 # Initial positions
-box_rect = box_image.get_rect(topleft=(100, 100))
+box_rect = box_image.get_rect(topleft=(400, 300))
 placed_objects = []  # List to store placed objects as (surface, rect) tuples
 current_object = None
 dragging = False
