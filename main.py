@@ -4,7 +4,7 @@ import sys
 pygame.init()
 
 # Set up the screen
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((900, 760))
 pygame.display.set_caption("Unpacking Off Brand")
 
 # Load images
@@ -16,7 +16,7 @@ object_images = ['object1.png', 'object2.png', 'object3.png']  # List of object 
 object_queue = [pygame.image.load(obj) for obj in object_images]
 
 # Initial positions
-box_rect = box_image.get_rect(topleft=(400, 300))
+box_rect = box_image.get_rect(topleft=(500, 400))
 placed_objects = []  # List to store placed objects as (surface, rect) tuples
 current_object = None
 dragging = False
