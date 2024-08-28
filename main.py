@@ -14,7 +14,7 @@ openBox_image = pygame.image.load('assets/openBox.png')
 counter_image = pygame.image.load('assets/counter.png')
 
 # Load object images and create a queue
-object_images = ['assets/menu.png', 'assets/painting1.png']  # List of object images
+object_images = ['assets/menu.png', 'assets/painting1.png', 'assets/flowers.png', 'assets/teapot.png']  # List of object images
 object_queue = [pygame.image.load(obj) for obj in object_images]
 
 # Initial positions
